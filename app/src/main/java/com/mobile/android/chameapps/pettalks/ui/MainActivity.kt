@@ -9,8 +9,9 @@ import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
-import com.mobile.android.chameapps.pettalks.R
-import com.mobile.android.chameapps.pettalks.ui.home.impl.HomeFragment
+import com.mobile.android.chameapps.pettalks.ui.about.impl.AboutFragment
+import com.mobile.android.chameapps.pettalks.ui.camera.impl.CameraFragment
+import com.mobile.android.chameapps.pettalks.ui.demo.impl.DemoFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 
         initToolbar()
         initNavigationMenu()
-        setFragment(HomeFragment.newInstance())
+        setFragment(DemoFragment.newInstance())
     }
 
     private fun initToolbar() {
@@ -53,16 +54,16 @@ class MainActivity : AppCompatActivity() {
                 drawer.closeDrawers()
 
                 when (item.itemId) {
-                    R.id.tab_for_today -> {
-                        setFragment(HomeFragment.newInstance())
+                    R.id.menu_camera_demo -> {
+                        setFragment(CameraFragment.newInstance())
                         return true
                     }
-                    R.id.tab_my_goals -> {
-                        setFragment(HomeFragment.newInstance())
+                    R.id.menu_cc -> {
+                        setFragment(DemoFragment.newInstance())
                         return true
                     }
-                    R.id.tab_calendar -> {
-                        setFragment(HomeFragment.newInstance())
+                    R.id.menu_about -> {
+                        setFragment(AboutFragment.newInstance())
                         return true
                     }
                 }

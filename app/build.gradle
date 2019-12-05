@@ -24,8 +24,11 @@ android {
         exclude 'META-INF/rxjava.properties'
     }
     compileOptions {
-        sourceCompatibility = '1.8'
-        targetCompatibility = '1.8'
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    aaptOptions{
+        noCompress "mp4" // file extension
     }
 }
 
@@ -60,5 +63,8 @@ dependencies {
     kapt "android.arch.persistence.room:compiler:2.2.1"
 
     // Third Party Libraries
-    implementation 'com.balysv:material-ripple:1.0.2' //ripple effect
+    implementation 'com.mikhaellopez:circularimageview:3.2.0' // circle image view
+
+    // Exoplayer
+    implementation 'com.google.android.exoplayer:exoplayer:2.8.4'
 }

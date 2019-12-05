@@ -1,33 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <group
         android:id="@+id/grp_1"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/tab_for_today"
-            android:icon="@drawable/ic_home"
-            android:title="@string/tab_for_today" />
+            android:id="@+id/menu_camera_demo"
+            android:icon="@drawable/ic_movie"
+            android:title="@string/menu_camera_demo"
+            app:actionViewClass="android.widget.Switch"
+            app:showAsAction="always"/>
         <item
-            android:id="@+id/tab_my_goals"
+            android:id="@+id/menu_cc"
             android:icon="@drawable/ic_whatshot"
-            android:title="@string/tab_my_goals" />
+            android:title="@string/menu_cc"
+            app:actionViewClass="android.widget.Switch"
+            app:showAsAction="always"/>
         <item
-            android:id="@+id/tab_calendar"
-            android:icon="@drawable/ic_schedule"
-            android:title="@string/tab_calendar" />
+            android:id="@+id/menu_voice"
+            android:icon="@drawable/ic_volume_off"
+            android:title="@string/menu_voice"
+            app:actionViewClass="android.widget.Switch"
+            app:showAsAction="always"/>
+        <item
+            android:id="@+id/menu_training_mode"
+            android:icon="@drawable/ic_highlight"
+            android:title="@string/menu_training_mode"
+            app:actionViewClass="android.widget.Switch"
+            app:showAsAction="always"/>
     </group>
-    <!--group
+    <group
         android:id="@+id/grp_2"
         android:checkableBehavior="none">
         <item
-            android:id="@+id/nav_settings"
+            android:id="@+id/menu_profile"
             android:icon="@drawable/ic_settings"
-            android:title="Settings" />
+            android:title="@string/menu_profile" />
         <item
-            android:id="@+id/nav_help"
+            android:id="@+id/menu_about"
             android:icon="@drawable/ic_help"
-            android:title="Help" />
-    </group-->
+            android:title="@string/menu_about" />
+    </group>
 
 </menu>

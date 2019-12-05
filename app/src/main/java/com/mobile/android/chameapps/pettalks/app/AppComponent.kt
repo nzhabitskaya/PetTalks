@@ -1,8 +1,14 @@
 package com.mobile.android.chameapps.pettalks.app
 
-import com.mobile.android.chameapps.pettalks.ui.home.di.HomeModule
-import com.mobile.android.chameapps.pettalks.ui.home.impl.HomeFragment
-import com.mobile.android.chameapps.pettalks.ui.home.impl.HomePresenter
+import com.mobile.android.chameapps.pettalks.ui.about.di.AboutModule
+import com.mobile.android.chameapps.pettalks.ui.about.impl.AboutFragment
+import com.mobile.android.chameapps.pettalks.ui.about.impl.AboutPresenter
+import com.mobile.android.chameapps.pettalks.ui.camera.di.CameraModule
+import com.mobile.android.chameapps.pettalks.ui.camera.impl.CameraFragment
+import com.mobile.android.chameapps.pettalks.ui.camera.impl.CameraPresenter
+import com.mobile.android.chameapps.pettalks.ui.demo.di.DemoModule
+import com.mobile.android.chameapps.pettalks.ui.demo.impl.DemoFragment
+import com.mobile.android.chameapps.pettalks.ui.demo.impl.DemoPresenter
 import dagger.Component
 import javax.inject.Singleton
 
@@ -11,12 +17,20 @@ import javax.inject.Singleton
  */
 
 @Singleton
-@Component(modules = [ApplicationModule::class, HomeModule::class])
+@Component(modules = [ApplicationModule::class, DemoModule::class, CameraModule::class, AboutModule::class])
 interface AppComponent {
 
     val application: MyApplication
 
-    val homePresenter: HomePresenter
+    val demoPresenter: DemoPresenter
 
-    fun inject(fragment: HomeFragment)
+    val cameraPresenter: CameraPresenter
+
+    val aboutPresenter: AboutPresenter
+
+    fun inject(fragment: DemoFragment)
+
+    fun inject(fragment: CameraFragment)
+
+    fun inject(fragment: AboutFragment)
 }

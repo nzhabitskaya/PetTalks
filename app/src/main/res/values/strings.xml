@@ -6,8 +6,11 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <!-- Menu -->
-    <string name="tab_for_today">Today</string>
-    <string name="tab_my_goals">My Goals</string>
-    <string name="tab_calendar">Calendar</string>
+    <string name="menu_camera_demo">Camera/demo</string>
+    <string name="menu_cc">CC on/off</string>
+    <string name="menu_voice">Voice on/off</string>
+    <string name="menu_training_mode">Training mode on/off</string>
+    <string name="menu_profile">Setup profile</string>
+    <string name="menu_about">About</string>
 
 </resources>

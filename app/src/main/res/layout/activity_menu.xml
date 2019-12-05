@@ -13,9 +13,7 @@
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
         <include layout="@layout/toolbar" />
-
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.drawerlayout.widget.DrawerLayout
@@ -28,19 +26,17 @@
             android:id="@+id/main_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
             <include layout="@layout/include_content" />
-
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/nav_view"
-            android:layout_width="220dp"
+            android:layout_width="290dp"
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:fitsSystemWindows="false"
-            android:paddingTop="@dimen/spacing_large"
+            app:headerLayout="@layout/include_drawer_header_news"
             app:itemBackground="@color/transparent"
             app:itemIconTint="@color/navigation_icon_state_list_color_light"
             app:itemTextAppearance="@style/TextAppearance.Subhead.Bold"
