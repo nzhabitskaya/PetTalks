@@ -14,5 +14,6 @@
     <color name="grey_60">#666666</color>
 
     <color name="transparent">#00000000</color>
+    <color name="fragment_background">#4285f4</color>
 
 </resources>

@@ -9,8 +9,6 @@ import com.arellomobile.mvp.MvpView
 interface CameraContract {
 
     interface View : MvpView {
-
-        fun displayTranslation(text: String)
     }
 
     interface Presenter {

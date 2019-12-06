@@ -10,7 +10,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
 import com.mobile.android.chameapps.pettalks.ui.about.impl.AboutFragment
-import com.mobile.android.chameapps.pettalks.ui.camera.impl.CameraFragment
+import com.mobile.android.chameapps.pettalks.ui.camera.impl.Camera2VideoFragment
 import com.mobile.android.chameapps.pettalks.ui.demo.impl.DemoFragment
 
 class MainActivity : AppCompatActivity() {
@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
 
                 when (item.itemId) {
                     R.id.menu_camera_demo -> {
-                        setFragment(CameraFragment.newInstance())
+                        setFragment(Camera2VideoFragment.newInstance() as Fragment)
                         return true
                     }
                     R.id.menu_cc -> {

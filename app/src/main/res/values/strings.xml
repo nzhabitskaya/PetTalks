@@ -13,4 +13,11 @@
     <string name="menu_profile">Setup profile</string>
     <string name="menu_about">About</string>
 
+    <!-- Camera messages -->
+    <string name="record">Record</string>
+    <string name="stop">Stop</string>
+    <string name="description_info">Info</string>
+    <string name="permission_request">This sample needs permission for camera and audio recording.</string>
+    <string name="camera_error">This device doesn\'t support Camera2 API.</string>
+
 </resources>
