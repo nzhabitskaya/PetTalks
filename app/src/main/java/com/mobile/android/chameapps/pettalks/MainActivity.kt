@@ -1,5 +1,6 @@
 package com.mobile.android.chameapps.pettalks
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBar
@@ -49,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         nav_view.setNavigationItemSelectedListener(object :
             NavigationView.OnNavigationItemSelectedListener {
             override fun onNavigationItemSelected(item: MenuItem): Boolean {
-                actionBar!!.setTitle(item.title)
+                //actionBar!!.setTitle(item.title)
                 drawer.closeDrawers()
 
                 when (item.itemId) {

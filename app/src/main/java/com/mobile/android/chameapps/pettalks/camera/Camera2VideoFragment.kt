@@ -203,10 +203,6 @@ class Camera2VideoFragment : Fragment(), View.OnClickListener,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         textureView = view.findViewById(R.id.texture)
-        videoButton = view.findViewById<Button>(R.id.video).also {
-            it.setOnClickListener(this)
-        }
-        view.findViewById<View>(R.id.info).setOnClickListener(this)
     }
 
     override fun onResume() {
@@ -232,7 +228,6 @@ class Camera2VideoFragment : Fragment(), View.OnClickListener,
 
     override fun onClick(view: View) {
         when (view.id) {
-            R.id.video -> if (isRecordingVideo) stopRecordingVideo() else startRecordingVideo()
             R.id.info -> {
                 if (activity != null) {
                     AlertDialog.Builder(activity)
