@@ -9,9 +9,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
-import com.mobile.android.chameapps.pettalks.ui.about.impl.AboutFragment
-import com.mobile.android.chameapps.pettalks.ui.camera.impl.Camera2VideoFragment
-import com.mobile.android.chameapps.pettalks.ui.demo.impl.DemoFragment
+import com.mobile.android.chameapps.pettalks.camera.Camera2VideoFragment
+import com.mobile.android.chameapps.pettalks.demo.DemoFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         initToolbar()
         initNavigationMenu()
-        setFragment(DemoFragment.newInstance())
+        setFragment(Camera2VideoFragment.newInstance())
     }
 
     private fun initToolbar() {
@@ -63,7 +62,7 @@ class MainActivity : AppCompatActivity() {
                         return true
                     }
                     R.id.menu_about -> {
-                        setFragment(AboutFragment.newInstance())
+                        setFragment(DemoFragment.newInstance())
                         return true
                     }
                 }

@@ -1,12 +1,11 @@
-package com.mobile.android.chameapps.pettalks.ui.demo.impl
+package com.mobile.android.chameapps.pettalks.demo
 
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.arellomobile.mvp.presenter.InjectPresenter
-import com.arellomobile.mvp.presenter.ProvidePresenter
+import androidx.fragment.app.Fragment
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
 import com.google.android.exoplayer2.source.ExtractorMediaSource
@@ -17,9 +16,6 @@ import com.google.android.exoplayer2.trackselection.TrackSelectionArray
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
-import com.mobile.android.chameapps.pettalks.app.MyApplication
-import com.mobile.android.chameapps.pettalks.mvp.MvpAppCompatFragment
-import com.mobile.android.chameapps.pettalks.ui.demo.DemoContract
 import kotlinx.android.synthetic.main.fragment_demo.*
 import javax.inject.Singleton
 import com.mobile.android.chameapps.pettalks.R
@@ -28,17 +24,7 @@ import com.mobile.android.chameapps.pettalks.R
  * Created by Natallia Zhabitskaya on 10/26/2019.
  */
 
-class DemoFragment : MvpAppCompatFragment(), DemoContract.View, Player.EventListener {
-
-    @InjectPresenter
-    lateinit var presenter: DemoPresenter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        (activity!!.application as MyApplication)
-            .getAppComponent(activity!!).inject(this)
-    }
+class DemoFragment : Fragment(), Player.EventListener {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -135,11 +121,6 @@ class DemoFragment : MvpAppCompatFragment(), DemoContract.View, Player.EventList
 
     override fun onTimelineChanged(timeline: Timeline?, manifest: Any?, reason: Int) {
 
-    }
-
-    @ProvidePresenter
-    fun providePresenter(): DemoPresenter {
-        return (activity!!.application as MyApplication).getAppComponent(activity!!).demoPresenter
     }
 
     companion object {

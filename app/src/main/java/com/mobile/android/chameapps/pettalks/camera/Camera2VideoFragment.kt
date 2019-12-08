@@ -1,4 +1,20 @@
-package com.mobile.android.chameapps.pettalks.ui.camera.impl
+/*
+ * Copyright 2017 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.mobile.android.chameapps.pettalks.camera
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
@@ -38,7 +54,7 @@ import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.mobile.android.chameapps.pettalks.R
-import com.mobile.android.chameapps.pettalks.ui.camera.ui.*
+import com.mobile.android.chameapps.pettalks.camera.ui.*
 import java.io.IOException
 import java.util.Collections
 import java.util.concurrent.Semaphore
@@ -607,6 +623,8 @@ class Camera2VideoFragment : Fragment(), View.OnClickListener,
     }
 
     companion object {
-        fun newInstance(): Camera2VideoFragment = Camera2VideoFragment()
+        fun newInstance(): Camera2VideoFragment =
+            Camera2VideoFragment()
     }
+
 }
