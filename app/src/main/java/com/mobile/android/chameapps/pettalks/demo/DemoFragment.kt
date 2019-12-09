@@ -4,10 +4,14 @@ import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.speech.tts.TextToSpeech
+import android.speech.tts.TextToSpeech.OnInitListener
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.Format.NO_VALUE
@@ -27,6 +31,7 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_demo.*
 import kotlinx.android.synthetic.main.fragment_demo.view.*
+import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -41,6 +46,7 @@ class DemoFragment : Fragment() {
     private lateinit var videoUri: Uri
 
     private lateinit var ad_view: ImageView
+    private lateinit var textToSpeech: TextToSpeech
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,6 +73,7 @@ class DemoFragment : Fragment() {
         videoUri = Uri.parse("file:///android_asset/demo.mp4")
         initializeExoplayer()
         createTimer()
+        initTTS()
         super.onStart()
     }
 
@@ -108,7 +115,10 @@ class DemoFragment : Fragment() {
         simpleExoplayer.prepare(mediaSource)
     }
 
-    private fun buildMediaSource(sourseUri: Uri, dataSourceFactory: DefaultDataSourceFactory): MediaSource {
+    private fun buildMediaSource(
+        sourseUri: Uri,
+        dataSourceFactory: DefaultDataSourceFactory
+    ): MediaSource {
         val mediaSource = ExtractorMediaSource(
             sourseUri,
             dataSourceFactory,
@@ -119,7 +129,10 @@ class DemoFragment : Fragment() {
         return mediaSource
     }
 
-    private fun buildSubtitlesSource(sourseUri: Uri, dataSourceFactory: DefaultDataSourceFactory): MediaSource {
+    private fun buildSubtitlesSource(
+        sourseUri: Uri,
+        dataSourceFactory: DefaultDataSourceFactory
+    ): MediaSource {
         val subtitleSource = SingleSampleMediaSource(
             sourseUri, dataSourceFactory,
             Format.createTextSampleFormat(
@@ -137,7 +150,6 @@ class DemoFragment : Fragment() {
     @SuppressLint("CheckResult")
     private fun createTimer() {
         Observable.interval(0, 1, TimeUnit.SECONDS)
-            .filter { (it.toInt() == 13) || (it.toInt() == 16) || (it.toInt() == 41) || (it.toInt() == 44) || (it.toInt() == 71) || (it.toInt() == 73) }
             .flatMap {
                 return@flatMap Observable.create<String> { emitter ->
                     emitter.onNext(it.toString())
@@ -146,17 +158,63 @@ class DemoFragment : Fragment() {
             }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                if(ad_view.visibility == View.INVISIBLE) {
+                if (ad_view.visibility == View.INVISIBLE) {
                     ad_view.visibility = View.VISIBLE
                 } else {
                     ad_view.visibility = View.INVISIBLE
                 }
 
-                when(it.toInt()) {
+                when (it.toInt()) {
                     16 -> ad_view.setImageResource(R.drawable.ad_2)
                     44 -> ad_view.setImageResource(R.drawable.ad_3)
                 }
+
+                when (it.toInt()) {
+                    2 -> textToSpeech.speak("Can I have this?", TextToSpeech.QUEUE_FLUSH, null)
+                    7 -> textToSpeech.speak("Can I have more?", TextToSpeech.QUEUE_FLUSH, null)
+                    13 -> textToSpeech.speak("Tasty!", TextToSpeech.QUEUE_FLUSH, null)
+                    16 -> textToSpeech.speak("Where is it?", TextToSpeech.QUEUE_FLUSH, null)
+                    22 -> textToSpeech.speak("Tasty!", TextToSpeech.QUEUE_FLUSH, null)
+                    25 -> textToSpeech.speak("Where did it go?", TextToSpeech.QUEUE_FLUSH, null)
+                    30 -> textToSpeech.speak("Hello!", TextToSpeech.QUEUE_FLUSH, null)
+                    36 -> textToSpeech.speak("Hello again.", TextToSpeech.QUEUE_FLUSH, null)
+                    40 -> textToSpeech.speak("Where is my treat?", TextToSpeech.QUEUE_FLUSH, null)
+                    44 -> textToSpeech.speak("What are you doing?", TextToSpeech.QUEUE_FLUSH, null)
+                    52 -> textToSpeech.speak("I want to play.", TextToSpeech.QUEUE_FLUSH, null)
+                    63 -> textToSpeech.speak("This is fun.", TextToSpeech.QUEUE_FLUSH, null)
+                    69 -> textToSpeech.speak(
+                        "Can I have some more?",
+                        TextToSpeech.QUEUE_FLUSH,
+                        null
+                    )
+                }
             }
+    }
+
+    private fun initTTS() {
+        textToSpeech = TextToSpeech(context,
+            OnInitListener { status ->
+                if (status == TextToSpeech.SUCCESS) {
+                    val ttsLang = textToSpeech.setLanguage(Locale.US)
+                    if (ttsLang == TextToSpeech.LANG_MISSING_DATA
+                        || ttsLang == TextToSpeech.LANG_NOT_SUPPORTED
+                    ) {
+                        Log.e("TTS", "The Language is not supported!")
+                    }
+                } else {
+                    Toast.makeText(
+                        context,
+                        "TTS Initialization failed!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        textToSpeech.stop()
+        textToSpeech.shutdown()
     }
 
     companion object {
