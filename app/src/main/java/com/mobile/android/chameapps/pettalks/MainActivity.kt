@@ -1,6 +1,5 @@
 package com.mobile.android.chameapps.pettalks
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBar
@@ -12,6 +11,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
 import com.mobile.android.chameapps.pettalks.camera.Camera2VideoFragment
 import com.mobile.android.chameapps.pettalks.demo.DemoFragment
+import com.mobile.android.chameapps.pettalks.demo.DemoFragment2
 
 class MainActivity : AppCompatActivity() {
 
@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
                         return true
                     }
                     R.id.menu_about -> {
-                        setFragment(DemoFragment.newInstance())
+                        setFragment(DemoFragment2.newInstance())
                         return true
                     }
                 }

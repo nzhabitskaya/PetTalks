@@ -16,15 +16,17 @@ import com.google.android.exoplayer2.trackselection.TrackSelectionArray
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
+import com.mobile.android.chameapps.pettalks.R
 import kotlinx.android.synthetic.main.fragment_demo.*
 import javax.inject.Singleton
-import com.mobile.android.chameapps.pettalks.R
 
 /**
  * Created by Natallia Zhabitskaya on 10/26/2019.
  */
 
 class DemoFragment : Fragment(), Player.EventListener {
+
+    private lateinit var subtitleUri: Uri
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,6 +74,7 @@ class DemoFragment : Fragment(), Player.EventListener {
 
     override fun onStart() {
         initializeExoplayer()
+        subtitleUri = Uri.parse("file:///android_asset/sub.srt");
         super.onStart()
     }
 
@@ -102,7 +105,9 @@ class DemoFragment : Fragment(), Player.EventListener {
     private fun prepareExoplayer() {
         val playerInfo = Util.getUserAgent(context, "PetTalksDemo");
         val dataSourceFactory = DefaultDataSourceFactory(context, playerInfo)
-        val mediaSource = ExtractorMediaSource.Factory(dataSourceFactory).setExtractorsFactory(DefaultExtractorsFactory()).createMediaSource(Uri.parse("file:///android_asset/animal_translator_demo2.mp4"));
+        val mediaSource = ExtractorMediaSource.Factory(dataSourceFactory)
+            .setExtractorsFactory(DefaultExtractorsFactory())
+            .createMediaSource(Uri.parse("file:///android_asset/demo.mp4"));
 
         simpleExoplayer.prepare(mediaSource)
     }
