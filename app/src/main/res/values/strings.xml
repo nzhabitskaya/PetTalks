@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name"></string>
+    <string name="app_name" />
 
     <!-- Menu Drawer -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -19,5 +19,6 @@
     <string name="description_info">Info</string>
     <string name="permission_request">This sample needs permission for camera and audio recording.</string>
     <string name="camera_error">This device doesn\'t support Camera2 API.</string>
+    <string name="ads">ads</string>
 
 </resources>

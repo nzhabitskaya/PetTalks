@@ -12,4 +12,15 @@
         app:resize_mode="fill"
         app:use_controller="false" />
 
+    <ImageView
+        android:id="@+id/ad_view"
+        android:layout_width="300dp"
+        android:layout_height="90dp"
+        android:scaleType="fitXY"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ad_1"
+        android:contentDescription="@string/ads"
+        android:visibility="invisible" />
+
 </RelativeLayout>
