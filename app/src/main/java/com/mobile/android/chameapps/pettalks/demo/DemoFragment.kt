@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.speech.tts.TextToSpeech
 import android.speech.tts.TextToSpeech.OnInitListener
+import android.speech.tts.Voice
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -158,10 +159,9 @@ class DemoFragment : Fragment() {
             }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                if (ad_view.visibility == View.INVISIBLE) {
-                    ad_view.visibility = View.VISIBLE
-                } else {
-                    ad_view.visibility = View.INVISIBLE
+
+                if (it.toInt() == 13 || it.toInt() == 16  || it.toInt() == 41 || it.toInt() == 44 || it.toInt() == 71 || it.toInt() == 73) {
+                    changeVisibility()
                 }
 
                 when (it.toInt()) {
@@ -191,11 +191,27 @@ class DemoFragment : Fragment() {
             }
     }
 
+    private fun changeVisibility() {
+        if (ad_view.visibility == View.INVISIBLE) {
+            ad_view.visibility = View.VISIBLE
+        } else {
+            ad_view.visibility = View.INVISIBLE
+        }
+    }
+
     private fun initTTS() {
         textToSpeech = TextToSpeech(context,
             OnInitListener { status ->
                 if (status == TextToSpeech.SUCCESS) {
-                    val ttsLang = textToSpeech.setLanguage(Locale.US)
+                    val ttsLang = textToSpeech.setLanguage(Locale.UK)
+
+                    //en-US-SMTf00
+                    //en-GB-SMTf00
+                    val voiceMale = Voice("en-GB-SMTf00", Locale.UK, 1, 1, false, null);
+                    textToSpeech.setVoice(voiceMale)
+
+                    textToSpeech.voices
+
                     if (ttsLang == TextToSpeech.LANG_MISSING_DATA
                         || ttsLang == TextToSpeech.LANG_NOT_SUPPORTED
                     ) {

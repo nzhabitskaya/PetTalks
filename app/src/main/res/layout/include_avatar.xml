@@ -41,28 +41,25 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="Hello!!!"
+                android:layout_marginTop="13dp"
+                android:text="@string/hello"
                 android:layout_gravity="center_horizontal"
-                android:textColor="@android:color/black"
-                android:textSize="12sp" />
+                style="@style/TextStyle"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="My name is Teddy."
+                android:text="@string/my_name_is_teddy"
                 android:layout_marginStart="25dp"
-                android:textColor="@android:color/black"
-                android:textSize="12sp" />
+                style="@style/TextStyle"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/spacing_medium"
-                android:text="Lets play and talk!"
+                android:text="@string/lets_play_and_talk"
                 android:layout_marginStart="60dp"
-                android:textColor="@android:color/black"
-                android:textSize="12sp" />
+                style="@style/TextStyle"/>
 
         </LinearLayout>
 

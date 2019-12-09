@@ -18,4 +18,10 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="TextStyle" parent="@style/TextAppearance.AppCompat.Medium">
+        <item name="android:fontFamily">@font/gooddog</item>
+        <item name="android:textColor">@color/colorPrimaryMenu</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
 </resources>
