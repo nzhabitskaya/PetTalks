@@ -260,6 +260,9 @@ class DemoFragment : Fragment() {
     }
 
     private fun showCustomDialog(messageId: Int) {
+        if(context == null) {
+            return
+        }
         val dialog = Dialog(context!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE) // before
         dialog.setContentView(R.layout.dialog_info)

@@ -1,7 +1,8 @@
 package com.mobile.android.chameapps.pettalks
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -13,7 +14,6 @@ import com.google.android.material.navigation.NavigationView
 import com.mobile.android.chameapps.pettalks.camera.Camera2VideoFragment
 import com.mobile.android.chameapps.pettalks.demo.DemoFragment
 import com.mobile.android.chameapps.pettalks.profile.ProfileFragment
-import com.mobile.android.chameapps.pettalks.R
 
 
 class MainActivity : AppCompatActivity() {
@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     private var actionBar: ActionBar? = null
     private var toolbar: Toolbar? = null
 
+    private lateinit var prefs: SharedPreferences
     private var isDemo: Boolean = false
     private var isCC: Boolean = false
     private var isVoice: Boolean = false
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
 
         initToolbar()
         initNavigationMenu()
+        prefs = getSharedPreferences("com.mobile.android.chameapps.pettalks", Context.MODE_PRIVATE)
         setFragment(Camera2VideoFragment.newInstance())
     }
 
@@ -61,10 +63,17 @@ class MainActivity : AppCompatActivity() {
             override fun onNavigationItemSelected(item: MenuItem): Boolean {
                 drawer.closeDrawers()
 
+                readPreferences()
                 when (item.itemId) {
                     R.id.menu_camera_demo -> {
-                        if(isDemo) {
-                            setFragment(DemoFragment.newInstance(isCC, isVoice, isTrainingMode) as Fragment)
+                        if (isDemo) {
+                            setFragment(
+                                DemoFragment.newInstance(
+                                    isCC,
+                                    isVoice,
+                                    isTrainingMode
+                                ) as Fragment
+                            )
                         } else {
                             setFragment(Camera2VideoFragment.newInstance() as Fragment)
                         }
@@ -92,26 +101,11 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.menu_camera_demo -> {
-                isDemo = item.isChecked
-                true
-            }
-            R.id.menu_cc -> {
-                isCC = item.isChecked
-                true
-            }
-            R.id.menu_voice -> {
-                isVoice = item.isChecked
-                true
-            }
-            R.id.menu_training_mode -> {
-                isTrainingMode = item.isChecked
-                true
-            }
-            else -> false
-        }
+    private fun readPreferences() {
+        isDemo = prefs.getBoolean(R.id.menu_camera_demo.toString(), false)
+        isCC = prefs.getBoolean(R.id.menu_cc.toString(), false)
+        isVoice = prefs.getBoolean(R.id.menu_voice.toString(), false)
+        isTrainingMode = prefs.getBoolean(R.id.menu_training_mode.toString(), false)
     }
 
     private fun setFragment(fragment: Fragment) {

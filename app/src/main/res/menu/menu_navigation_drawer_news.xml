@@ -9,25 +9,25 @@
             android:id="@+id/menu_camera_demo"
             android:icon="@drawable/ic_movie"
             android:title="@string/menu_camera_demo"
-            app:actionViewClass="android.widget.Switch"
+            app:actionViewClass="com.mobile.android.chameapps.pettalks.menu.CustomSwitch"
             app:showAsAction="always"/>
         <item
             android:id="@+id/menu_cc"
             android:icon="@drawable/ic_whatshot"
             android:title="@string/menu_cc"
-            app:actionViewClass="android.widget.Switch"
+            app:actionViewClass="com.mobile.android.chameapps.pettalks.menu.CustomSwitch"
             app:showAsAction="always"/>
         <item
             android:id="@+id/menu_voice"
             android:icon="@drawable/ic_volume_off"
             android:title="@string/menu_voice"
-            app:actionViewClass="android.widget.Switch"
+            app:actionViewClass="com.mobile.android.chameapps.pettalks.menu.CustomSwitch"
             app:showAsAction="always"/>
         <item
             android:id="@+id/menu_training_mode"
             android:icon="@drawable/ic_highlight"
             android:title="@string/menu_training_mode"
-            app:actionViewClass="android.widget.Switch"
+            app:actionViewClass="com.mobile.android.chameapps.pettalks.menu.CustomSwitch"
             app:showAsAction="always"/>
     </group>
     <group
