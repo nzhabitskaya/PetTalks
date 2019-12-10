@@ -6,6 +6,8 @@
     <dimen name="spacing_middle">10dp</dimen>
     <dimen name="spacing_large">15dp</dimen>
     <dimen name="spacing_smlarge">18dp</dimen>
+    <dimen name="spacing_mlarge">20dp</dimen>
+    <dimen name="spacing_xmlarge">40dp</dimen>
 
     <dimen name="button_padding">20dp</dimen>
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" />
+    <string name="app_name">Pet Talks</string>
 
     <!-- Menu Drawer -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -23,5 +23,18 @@
     <string name="lets_play_and_talk">Lets play and talk!</string>
     <string name="my_name_is_teddy">My name is Teddy.</string>
     <string name="hello">Hello!!!</string>
+
+    <!-- Questions -->
+    <string name="q1">Teddy wants to have more! Is it correct?</string>
+    <string name="q2">Teddy greets you! Is it correct?</string>
+    <string name="q3">Teddy wants to play! Is it correct?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="pets_name">Pets name</string>
+    <string name="teddy_dog_gmail_com">teddy_dog@gmail.com</string>
+    <string name="_1_y_o">1 y.o</string>
+    <string name="male">Male</string>
+    <string name="united_state">United State</string>
+    <string name="submit">SUBMIT</string>
 
 </resources>

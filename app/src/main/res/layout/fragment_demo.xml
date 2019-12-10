@@ -14,8 +14,8 @@
 
     <ImageView
         android:id="@+id/ad_view"
-        android:layout_width="300dp"
-        android:layout_height="90dp"
+        android:layout_width="222dp"
+        android:layout_height="117dp"
         android:scaleType="fitXY"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"

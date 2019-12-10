@@ -1,6 +1,7 @@
 package com.mobile.android.chameapps.pettalks.demo
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -8,10 +9,10 @@ import android.speech.tts.TextToSpeech
 import android.speech.tts.TextToSpeech.OnInitListener
 import android.speech.tts.Voice
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.exoplayer2.*
@@ -49,10 +50,19 @@ class DemoFragment : Fragment() {
     private lateinit var ad_view: ImageView
     private lateinit var textToSpeech: TextToSpeech
 
+    private var isCC: Boolean = false
+    private var isVoice: Boolean = false
+    private var isTrainingMode: Boolean = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        val args = getArguments()
+        isCC = args!!.getBoolean(IS_CC, false)
+        isVoice = args!!.getBoolean(IS_VOICE, false)
+        isTrainingMode = args!!.getBoolean(IS_TRAINING_MODE, false)
 
         val view = inflater.inflate(R.layout.fragment_demo, container, false)
         ad_view = view.ad_view
@@ -105,13 +115,17 @@ class DemoFragment : Fragment() {
         val playerInfo = Util.getUserAgent(context, "PetTalksDemo")
         val dataSourceFactory = DefaultDataSourceFactory(context, playerInfo)
 
-        val mediaSources =
-            arrayOfNulls<MediaSource>(2)
+        val mediaSources = arrayOfNulls<MediaSource>(2)
 
         mediaSources[0] = buildMediaSource(videoUri, dataSourceFactory)
         mediaSources[1] = buildSubtitlesSource(subtitleUri, dataSourceFactory)
 
-        val mediaSource: MediaSource = MergingMediaSource(*mediaSources)
+        val mediaSource: MediaSource
+        if (isCC) {
+            mediaSource = MergingMediaSource(*mediaSources)
+        } else {
+            mediaSource = buildMediaSource(videoUri, dataSourceFactory)
+        }
 
         simpleExoplayer.prepare(mediaSource)
     }
@@ -160,33 +174,51 @@ class DemoFragment : Fragment() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
 
-                if (it.toInt() == 13 || it.toInt() == 16  || it.toInt() == 41 || it.toInt() == 44 || it.toInt() == 71 || it.toInt() == 73) {
+                if (it.toInt() == 13 || it.toInt() == 16 || it.toInt() == 41 || it.toInt() == 44 || it.toInt() == 71 || it.toInt() == 73) {
                     changeVisibility()
                 }
 
                 when (it.toInt()) {
                     16 -> ad_view.setImageResource(R.drawable.ad_2)
-                    44 -> ad_view.setImageResource(R.drawable.ad_3)
+                    44 -> ad_view.setImageResource(R.drawable.ad_1)
                 }
 
-                when (it.toInt()) {
-                    2 -> textToSpeech.speak("Can I have this?", TextToSpeech.QUEUE_FLUSH, null)
-                    7 -> textToSpeech.speak("Can I have more?", TextToSpeech.QUEUE_FLUSH, null)
-                    13 -> textToSpeech.speak("Tasty!", TextToSpeech.QUEUE_FLUSH, null)
-                    16 -> textToSpeech.speak("Where is it?", TextToSpeech.QUEUE_FLUSH, null)
-                    22 -> textToSpeech.speak("Tasty!", TextToSpeech.QUEUE_FLUSH, null)
-                    25 -> textToSpeech.speak("Where did it go?", TextToSpeech.QUEUE_FLUSH, null)
-                    30 -> textToSpeech.speak("Hello!", TextToSpeech.QUEUE_FLUSH, null)
-                    36 -> textToSpeech.speak("Hello again.", TextToSpeech.QUEUE_FLUSH, null)
-                    40 -> textToSpeech.speak("Where is my treat?", TextToSpeech.QUEUE_FLUSH, null)
-                    44 -> textToSpeech.speak("What are you doing?", TextToSpeech.QUEUE_FLUSH, null)
-                    52 -> textToSpeech.speak("I want to play.", TextToSpeech.QUEUE_FLUSH, null)
-                    63 -> textToSpeech.speak("This is fun.", TextToSpeech.QUEUE_FLUSH, null)
-                    69 -> textToSpeech.speak(
-                        "Can I have some more?",
-                        TextToSpeech.QUEUE_FLUSH,
-                        null
-                    )
+                if (isVoice) {
+                    when (it.toInt()) {
+                        2 -> textToSpeech.speak("Can I have this?", TextToSpeech.QUEUE_FLUSH, null)
+                        7 -> textToSpeech.speak("Can I have more?", TextToSpeech.QUEUE_FLUSH, null)
+                        13 -> textToSpeech.speak("Tasty!", TextToSpeech.QUEUE_FLUSH, null)
+                        16 -> textToSpeech.speak("Where is it?", TextToSpeech.QUEUE_FLUSH, null)
+                        22 -> textToSpeech.speak("Tasty!", TextToSpeech.QUEUE_FLUSH, null)
+                        25 -> textToSpeech.speak("Where did it go?", TextToSpeech.QUEUE_FLUSH, null)
+                        30 -> textToSpeech.speak("Hello!", TextToSpeech.QUEUE_FLUSH, null)
+                        36 -> textToSpeech.speak("Hello again.", TextToSpeech.QUEUE_FLUSH, null)
+                        40 -> textToSpeech.speak(
+                            "Where is my treat?",
+                            TextToSpeech.QUEUE_FLUSH,
+                            null
+                        )
+                        44 -> textToSpeech.speak(
+                            "What are you doing?",
+                            TextToSpeech.QUEUE_FLUSH,
+                            null
+                        )
+                        52 -> textToSpeech.speak("I want to play.", TextToSpeech.QUEUE_FLUSH, null)
+                        63 -> textToSpeech.speak("This is fun.", TextToSpeech.QUEUE_FLUSH, null)
+                        69 -> textToSpeech.speak(
+                            "Can I have some more?",
+                            TextToSpeech.QUEUE_FLUSH,
+                            null
+                        )
+                    }
+                }
+
+                if (isTrainingMode) {
+                    when (it.toInt()) {
+                        7 -> showCustomDialog(R.string.q1)
+                        30 -> showCustomDialog(R.string.q2)
+                        52 -> showCustomDialog(R.string.q3)
+                    }
                 }
             }
     }
@@ -227,17 +259,65 @@ class DemoFragment : Fragment() {
             })
     }
 
+    private fun showCustomDialog(messageId: Int) {
+        val dialog = Dialog(context!!)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE) // before
+        dialog.setContentView(R.layout.dialog_info)
+        dialog.setCancelable(true)
+        val lp = WindowManager.LayoutParams()
+        lp.copyFrom(dialog.window!!.attributes)
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT
+        (dialog.findViewById<View>(R.id.message) as TextView).text = resources.getString(messageId)
+        (dialog.findViewById<View>(R.id.bt_yes) as Button).setOnClickListener(
+            { v -> dialog.dismiss() })
+        (dialog.findViewById<View>(R.id.bt_no) as Button).setOnClickListener(
+            { v -> dialog.dismiss() })
+        dialog.show()
+        dialog.window!!.attributes = lp
+    }
+
+    override fun onPause() {
+        super.onPause()
+        pausePlayer()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        startPlayer()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         textToSpeech.stop()
         textToSpeech.shutdown()
     }
 
+    private fun pausePlayer() {
+        simpleExoplayer.setPlayWhenReady(false)
+        simpleExoplayer.getPlaybackState()
+    }
+
+    private fun startPlayer() {
+        simpleExoplayer.setPlayWhenReady(true)
+        simpleExoplayer.getPlaybackState()
+    }
+
     companion object {
 
+        const val IS_CC = "is_cc"
+        const val IS_VOICE = "is_voice"
+        const val IS_TRAINING_MODE = "is_training_mode"
+
         @Singleton
-        fun newInstance(): DemoFragment {
-            return DemoFragment()
+        fun newInstance(isCC: Boolean, isVoice: Boolean, isTrainingMode: Boolean): DemoFragment {
+            val fragment = DemoFragment()
+            val args = Bundle()
+            args.putBoolean(IS_CC, isCC)
+            args.putBoolean(IS_VOICE, isVoice)
+            args.putBoolean(IS_TRAINING_MODE, isTrainingMode)
+            fragment.setArguments(args)
+            return fragment
         }
     }
 }
