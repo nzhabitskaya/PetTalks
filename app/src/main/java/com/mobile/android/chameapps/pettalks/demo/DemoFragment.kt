@@ -300,7 +300,6 @@ class DemoFragment : Fragment() {
         super.onDestroy()
         textToSpeech.stop()
         textToSpeech.shutdown()
-        dialog.dismiss()
     }
 
     private fun pausePlayer() {

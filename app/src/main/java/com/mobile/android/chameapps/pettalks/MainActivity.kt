@@ -3,6 +3,7 @@ package com.mobile.android.chameapps.pettalks
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -34,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         initToolbar()
         initNavigationMenu()
         prefs = getSharedPreferences("com.mobile.android.chameapps.pettalks", Context.MODE_PRIVATE)
-        readPreferences()
+        clearPreferences()
         setFragment(Camera2VideoFragment.newInstance())
     }
 
@@ -102,11 +103,20 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    private fun clearPreferences() {
+        prefs.edit().clear().commit()
+    }
+
     private fun readPreferences() {
         isDemo = prefs.getBoolean(R.id.menu_camera_demo.toString(), false)
         isCC = prefs.getBoolean(R.id.menu_cc.toString(), false)
         isVoice = prefs.getBoolean(R.id.menu_voice.toString(), false)
         isTrainingMode = prefs.getBoolean(R.id.menu_training_mode.toString(), false)
+
+        Log.e("ABC", "Read prefs: " + R.id.menu_camera_demo.toString() + " = " + isDemo)
+        Log.e("ABC", "Read prefs: " + R.id.menu_cc.toString() + " = " + isCC)
+        Log.e("ABC", "Read prefs: " + R.id.menu_voice.toString() + " = " + isVoice)
+        Log.e("ABC", "Read prefs: " + R.id.menu_training_mode.toString() + " = " + isTrainingMode)
     }
 
     private fun setFragment(fragment: Fragment) {

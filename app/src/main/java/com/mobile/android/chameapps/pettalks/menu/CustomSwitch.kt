@@ -15,15 +15,12 @@ import android.widget.Switch
 class CustomSwitch(context: Context?) : Switch(context) {
 
     init {
+        val prefs: SharedPreferences = context!!.getSharedPreferences(
+            "com.mobile.android.chameapps.pettalks", Context.MODE_PRIVATE
+        )
         setOnCheckedChangeListener { buttonView, isChecked ->
-            val msg = if (isChecked) "ON" else "OFF"
-            Log.e("ABC", "id: = " + buttonView.id)
-            Log.e("ABC", "isChecked = " + msg)
-
-            val prefs: SharedPreferences = context!!.getSharedPreferences(
-                "com.mobile.android.chameapps.pettalks", Context.MODE_PRIVATE
-            )
             prefs.edit().putBoolean(buttonView.id.toString(), isChecked).apply()
+            Log.e("ABC", "Save prefs: " + buttonView.id.toString() + " = " + isChecked)
         }
     }
 }
