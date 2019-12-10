@@ -54,7 +54,9 @@ class DemoFragment : Fragment() {
     private var isVoice: Boolean = false
     private var isTrainingMode: Boolean = false
 
-    override fun onCreateView(
+    private lateinit var dialog: Dialog
+
+        override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
@@ -263,21 +265,25 @@ class DemoFragment : Fragment() {
         if(context == null) {
             return
         }
-        val dialog = Dialog(context!!)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE) // before
-        dialog.setContentView(R.layout.dialog_info)
-        dialog.setCancelable(true)
-        val lp = WindowManager.LayoutParams()
-        lp.copyFrom(dialog.window!!.attributes)
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT
-        (dialog.findViewById<View>(R.id.message) as TextView).text = resources.getString(messageId)
-        (dialog.findViewById<View>(R.id.bt_yes) as Button).setOnClickListener(
-            { v -> dialog.dismiss() })
-        (dialog.findViewById<View>(R.id.bt_no) as Button).setOnClickListener(
-            { v -> dialog.dismiss() })
+        if(!::dialog.isInitialized) {
+            dialog = Dialog(context!!)
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE) // before
+            dialog.setContentView(R.layout.dialog_info)
+            dialog.setCancelable(true)
+            val lp = WindowManager.LayoutParams()
+            lp.copyFrom(dialog.window!!.attributes)
+            lp.width = WindowManager.LayoutParams.WRAP_CONTENT
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT
+            (dialog.findViewById<View>(R.id.bt_yes) as Button).setOnClickListener(
+                { v -> dialog.dismiss() })
+            (dialog.findViewById<View>(R.id.bt_no) as Button).setOnClickListener(
+                { v -> dialog.dismiss() })
+            dialog.window!!.attributes = lp
+        }
+        (dialog.findViewById<View>(R.id.message) as TextView).text =
+            resources.getString(messageId)
+        dialog.hide()
         dialog.show()
-        dialog.window!!.attributes = lp
     }
 
     override fun onPause() {
@@ -294,6 +300,7 @@ class DemoFragment : Fragment() {
         super.onDestroy()
         textToSpeech.stop()
         textToSpeech.shutdown()
+        dialog.dismiss()
     }
 
     private fun pausePlayer() {

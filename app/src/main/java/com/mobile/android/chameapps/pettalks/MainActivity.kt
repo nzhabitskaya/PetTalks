@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         initToolbar()
         initNavigationMenu()
         prefs = getSharedPreferences("com.mobile.android.chameapps.pettalks", Context.MODE_PRIVATE)
+        readPreferences()
         setFragment(Camera2VideoFragment.newInstance())
     }
 
