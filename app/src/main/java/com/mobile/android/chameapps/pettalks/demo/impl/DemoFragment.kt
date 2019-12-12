@@ -88,7 +88,7 @@ class DemoFragment : Fragment(), DemoContract.View {
         view.avatar.setOnClickListener{ presenter.openProfile() }
 
         animationDown = ObjectAnimator.ofFloat (ad_view, "translationY", 0f).setDuration(50)
-        animationUp = ObjectAnimator.ofFloat (ad_view, "translationY", -320f).setDuration(50)
+        animationUp = ObjectAnimator.ofFloat (ad_view, "translationY", -400f).setDuration(50)
         return view
     }
 

@@ -10,6 +10,8 @@ class MainContract {
         fun openDemoScreen()
 
         fun openProfileScreen()
+
+        fun hideMenu()
     }
 
     interface Presenter: BaseContract.Presenter<View> {
@@ -23,5 +25,7 @@ class MainContract {
         fun updateVoiceToggle(value: Boolean)
 
         fun updateTrainingModeToggle(value: Boolean)
+
+        fun startHideMenuCounter()
     }
 }

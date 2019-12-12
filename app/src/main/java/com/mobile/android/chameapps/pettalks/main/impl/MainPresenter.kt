@@ -1,9 +1,12 @@
 package com.mobile.android.chameapps.pettalks.main.impl
 
+import android.annotation.SuppressLint
 import com.mobile.android.chameapps.pettalks.main.MainContract
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 
 class MainPresenter(model: MainModel): MainContract.Presenter {
 
@@ -54,6 +57,24 @@ class MainPresenter(model: MainModel): MainContract.Presenter {
             .subscribe({ view.openDemoScreen() })
 
         subscriptions.add(subscribe3)
+    }
+
+    override fun startHideMenuCounter() {
+        val subscribe = Observable.interval(0, 1, TimeUnit.SECONDS)
+            .flatMap {
+                return@flatMap Observable.create<String> { emitter ->
+                    emitter.onNext(it.toString())
+                    emitter.onComplete()
+                }
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                if (it.toInt() % 10 == 0) {
+                    view.hideMenu()
+                }
+            }
+
+        subscriptions.add(subscribe)
     }
 
     override fun updateDemoToggle(value: Boolean) {

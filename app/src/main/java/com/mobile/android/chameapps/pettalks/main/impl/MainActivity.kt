@@ -41,6 +41,8 @@ class MainActivity : AppCompatActivity(),
     private var isVoice: Boolean = false
     private var isTrainingMode: Boolean = false
 
+    private lateinit var drawerLayout: DrawerLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
@@ -48,6 +50,7 @@ class MainActivity : AppCompatActivity(),
         injectDependency()
         presenter.attach(this)
         presenter.registerToggleListeners()
+        presenter.startHideMenuCounter()
 
         initToolbar()
         initNavigationMenu()
@@ -56,7 +59,6 @@ class MainActivity : AppCompatActivity(),
 
         clearPreferences()
         setFragment(Camera2VideoFragment.newInstance())
-        createMenuTimer()
     }
 
     private fun initToolbar() {
@@ -70,21 +72,20 @@ class MainActivity : AppCompatActivity(),
 
     private fun initNavigationMenu() {
         val nav_view = findViewById(R.id.nav_view) as NavigationView
-        val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
+        drawerLayout = findViewById(R.id.drawer_layout) as DrawerLayout
         val toggle = object : ActionBarDrawerToggle(
             this,
-            drawer,
+            drawerLayout,
             toolbar,
             R.string.navigation_drawer_open,
             R.string.navigation_drawer_close
         ) {}
-        drawer.setDrawerListener(toggle)
+        drawerLayout.setDrawerListener(toggle)
         toggle.syncState()
         nav_view.setNavigationItemSelectedListener(object :
             NavigationView.OnNavigationItemSelectedListener {
             override fun onNavigationItemSelected(item: MenuItem): Boolean {
-                drawer.closeDrawers()
-
+                drawerLayout.closeDrawers()
                 readPreferences()
                 when (item.itemId) {
                     R.id.menu_profile -> {
@@ -98,7 +99,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun clearPreferences() {
-        prefs.edit().clear().commit()
+        prefs.edit().clear().apply()
     }
 
     private fun readPreferences() {
@@ -106,25 +107,6 @@ class MainActivity : AppCompatActivity(),
         isCC = prefs.getBoolean(R.id.menu_cc.toString(), false)
         isVoice = prefs.getBoolean(R.id.menu_voice.toString(), false)
         isTrainingMode = prefs.getBoolean(R.id.menu_training_mode.toString(), false)
-    }
-
-    @SuppressLint("CheckResult")
-    private fun createMenuTimer() {
-        Observable.interval(0, 1, TimeUnit.SECONDS)
-            .flatMap {
-                return@flatMap Observable.create<String> { emitter ->
-                    emitter.onNext(it.toString())
-                    emitter.onComplete()
-                }
-            }
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-
-                if (it.toInt() == 13) {
-                    Log.e("ABC", "Hide menu")
-                    invalidateOptionsMenu()
-                }
-            }
     }
 
     override fun openCameraScreen() {
@@ -143,6 +125,10 @@ class MainActivity : AppCompatActivity(),
 
     override fun openProfileScreen() {
         setFragment(ProfileFragment.newInstance())
+    }
+
+    override fun hideMenu() {
+        drawerLayout.closeDrawers()
     }
 
     fun setFragment(fragment: Fragment) {
