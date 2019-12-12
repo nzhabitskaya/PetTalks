@@ -1,8 +1,9 @@
-package com.mobile.android.chameapps.pettalks
+package com.mobile.android.chameapps.pettalks.main.impl
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -13,15 +14,23 @@ import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
+import com.mobile.android.chameapps.pettalks.R
+import com.mobile.android.chameapps.pettalks.application.MyApplication
 import com.mobile.android.chameapps.pettalks.camera.Camera2VideoFragment
-import com.mobile.android.chameapps.pettalks.demo.DemoFragment
-import com.mobile.android.chameapps.pettalks.profile.ProfileFragment
+import com.mobile.android.chameapps.pettalks.demo.impl.DemoFragment
+import com.mobile.android.chameapps.pettalks.main.MainContract
+import com.mobile.android.chameapps.pettalks.profile.impl.ProfileFragment
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),
+    MainContract.View {
+
+    @Inject
+    lateinit var presenter: MainContract.Presenter
 
     private var actionBar: ActionBar? = null
     private var toolbar: Toolbar? = null
@@ -36,9 +45,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
 
+        injectDependency()
+        presenter.attach(this)
+        presenter.registerToggleListeners()
+
         initToolbar()
         initNavigationMenu()
         prefs = getSharedPreferences("com.mobile.android.chameapps.pettalks", Context.MODE_PRIVATE)
+        prefs.registerOnSharedPreferenceChangeListener(sharedPrefsListener)
+
         clearPreferences()
         setFragment(Camera2VideoFragment.newInstance())
         createMenuTimer()
@@ -72,34 +87,8 @@ class MainActivity : AppCompatActivity() {
 
                 readPreferences()
                 when (item.itemId) {
-                    R.id.menu_camera_demo -> {
-                        if (isDemo) {
-                            setFragment(
-                                DemoFragment.newInstance(
-                                    isCC,
-                                    isVoice,
-                                    isTrainingMode
-                                ) as Fragment
-                            )
-                        } else {
-                            setFragment(Camera2VideoFragment.newInstance() as Fragment)
-                        }
-                        return true
-                    }
-                    R.id.menu_cc -> {
-                        setFragment(DemoFragment.newInstance(isCC, isVoice, isTrainingMode))
-                        return true
-                    }
-                    R.id.menu_voice -> {
-                        setFragment(DemoFragment.newInstance(isCC, isVoice, isTrainingMode))
-                        return true
-                    }
-                    R.id.menu_training_mode -> {
-                        setFragment(DemoFragment.newInstance(isCC, isVoice, isTrainingMode))
-                        return true
-                    }
                     R.id.menu_profile -> {
-                        setFragment(ProfileFragment.newInstance())
+                        openProfileScreen()
                         return true
                     }
                 }
@@ -138,10 +127,44 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
+    override fun openCameraScreen() {
+        setFragment(Camera2VideoFragment.newInstance() as Fragment)
+    }
+
+    override fun openDemoScreen() {
+        setFragment(
+            DemoFragment.newInstance(
+                isCC,
+                isVoice,
+                isTrainingMode
+            ) as Fragment
+        )
+    }
+
+    override fun openProfileScreen() {
+        setFragment(ProfileFragment.newInstance())
+    }
+
     fun setFragment(fragment: Fragment) {
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragment_container, fragment)
             .commit()
+    }
+
+    var sharedPrefsListener =
+        OnSharedPreferenceChangeListener { sharedPreferences, key ->
+            isDemo = prefs.getBoolean(R.id.menu_camera_demo.toString(), false)
+            presenter.updateDemoToggle(isDemo)
+            isCC = prefs.getBoolean(R.id.menu_cc.toString(), false)
+            presenter.updateCcToggle(isCC)
+            isVoice = prefs.getBoolean(R.id.menu_voice.toString(), false)
+            presenter.updateVoiceToggle(isVoice)
+            isTrainingMode = prefs.getBoolean(R.id.menu_training_mode.toString(), false)
+            presenter.updateTrainingModeToggle(isTrainingMode)
+        }
+
+    private fun injectDependency() {
+        (application as MyApplication).getAppComponent(this)!!.inject(this)
     }
 }

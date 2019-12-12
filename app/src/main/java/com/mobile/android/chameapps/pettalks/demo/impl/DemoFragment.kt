@@ -1,4 +1,4 @@
-package com.mobile.android.chameapps.pettalks.demo
+package com.mobile.android.chameapps.pettalks.demo.impl
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
@@ -27,12 +27,15 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.MimeTypes
 import com.google.android.exoplayer2.util.Util
 import com.mobile.android.chameapps.pettalks.R
+import com.mobile.android.chameapps.pettalks.application.MyApplication
+import com.mobile.android.chameapps.pettalks.demo.DemoContract
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_demo.*
 import kotlinx.android.synthetic.main.fragment_demo.view.*
 import java.util.*
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 import javax.inject.Singleton
 
 
@@ -40,7 +43,10 @@ import javax.inject.Singleton
  * Created by Natallia Zhabitskaya on 10/26/2019.
  */
 
-class DemoFragment : Fragment() {
+class DemoFragment : Fragment(), DemoContract.View {
+
+    @Inject
+    lateinit var presenter: DemoContract.Presenter
 
     private lateinit var subtitleUri: Uri
     private lateinit var videoUri: Uri
@@ -58,6 +64,12 @@ class DemoFragment : Fragment() {
 
     private lateinit var dialog: Dialog
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        injectDependency()
+        presenter.attach(this)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -65,13 +77,15 @@ class DemoFragment : Fragment() {
 
         val args = getArguments()
         isCC = args!!.getBoolean(IS_CC, false)
-        isVoice = args!!.getBoolean(IS_VOICE, false)
-        isTrainingMode = args!!.getBoolean(IS_TRAINING_MODE, false)
+        isVoice = args.getBoolean(IS_VOICE, false)
+        isTrainingMode = args.getBoolean(IS_TRAINING_MODE, false)
 
         val view = inflater.inflate(R.layout.fragment_demo, container, false)
         ad_view_img = view.ad_view_img
         ad_view = view.ad_view
         ad_view.setOnClickListener { hideAds() }
+
+        view.avatar.setOnClickListener{ presenter.openProfile() }
 
         animationDown = ObjectAnimator.ofFloat (ad_view, "translationY", 0f).setDuration(50)
         animationUp = ObjectAnimator.ofFloat (ad_view, "translationY", -320f).setDuration(50)
@@ -94,6 +108,7 @@ class DemoFragment : Fragment() {
         initializeExoplayer()
         createTimer()
         initTTS()
+        presenter.registerToggleListeners()
         super.onStart()
     }
 
@@ -314,6 +329,18 @@ class DemoFragment : Fragment() {
         textToSpeech.shutdown()
     }
 
+    override fun updateCcValue(value: Boolean) {
+        isCC = value
+    }
+
+    override fun updateVoiceValue(value: Boolean) {
+        isVoice = value
+    }
+
+    override fun updateTrainingModeValue(value: Boolean) {
+        isTrainingMode = value
+    }
+
     private fun pausePlayer() {
         simpleExoplayer.setPlayWhenReady(false)
         simpleExoplayer.getPlaybackState()
@@ -324,6 +351,10 @@ class DemoFragment : Fragment() {
         simpleExoplayer.getPlaybackState()
     }
 
+    private fun injectDependency() {
+        (activity!!.application as MyApplication).getAppComponent(context!!)!!.inject(this)
+    }
+
     companion object {
 
         const val IS_CC = "is_cc"
@@ -332,7 +363,8 @@ class DemoFragment : Fragment() {
 
         @Singleton
         fun newInstance(isCC: Boolean, isVoice: Boolean, isTrainingMode: Boolean): DemoFragment {
-            val fragment = DemoFragment()
+            val fragment =
+                DemoFragment()
             val args = Bundle()
             args.putBoolean(IS_CC, isCC)
             args.putBoolean(IS_VOICE, isVoice)
