@@ -119,7 +119,7 @@ class MainActivity : AppCompatActivity() {
         Log.e("ABC", "Read prefs: " + R.id.menu_training_mode.toString() + " = " + isTrainingMode)
     }
 
-    private fun setFragment(fragment: Fragment) {
+    fun setFragment(fragment: Fragment) {
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragment_container, fragment)

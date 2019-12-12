@@ -48,6 +48,7 @@ class DemoFragment : Fragment() {
     private lateinit var videoUri: Uri
 
     private lateinit var ad_view: ImageView
+    private lateinit var btn_close: ImageView
     private lateinit var textToSpeech: TextToSpeech
 
     private var isCC: Boolean = false
@@ -67,7 +68,9 @@ class DemoFragment : Fragment() {
         isTrainingMode = args!!.getBoolean(IS_TRAINING_MODE, false)
 
         val view = inflater.inflate(R.layout.fragment_demo, container, false)
+        btn_close = view.btn_close
         ad_view = view.ad_view
+        ad_view.setOnClickListener { changeVisibility() }
         return view
     }
 
@@ -106,6 +109,7 @@ class DemoFragment : Fragment() {
         simpleExoPlayerView.player = simpleExoplayer
         simpleExoplayer.seekTo(playbackPosition)
         simpleExoplayer.playWhenReady = true
+        simpleExoplayer.volume = 0f
     }
 
     private fun releaseExoplayer() {
@@ -176,7 +180,7 @@ class DemoFragment : Fragment() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
 
-                if (it.toInt() == 13 || it.toInt() == 16 || it.toInt() == 41 || it.toInt() == 44 || it.toInt() == 71 || it.toInt() == 73) {
+                if (it.toInt() == 13 || it.toInt() == 17 || it.toInt() == 41 || it.toInt() == 45 || it.toInt() == 71 || it.toInt() == 74) {
                     changeVisibility()
                 }
 
@@ -228,8 +232,10 @@ class DemoFragment : Fragment() {
     private fun changeVisibility() {
         if (ad_view.visibility == View.INVISIBLE) {
             ad_view.visibility = View.VISIBLE
+            btn_close.visibility = View.VISIBLE
         } else {
             ad_view.visibility = View.INVISIBLE
+            btn_close.visibility = View.INVISIBLE
         }
     }
 

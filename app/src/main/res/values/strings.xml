@@ -6,7 +6,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <!-- Menu -->
-    <string name="menu_camera_demo">Camera/demo</string>
+    <string name="menu_camera_demo">Camera/Video</string>
     <string name="menu_cc">CC on/off</string>
     <string name="menu_voice">Voice on/off</string>
     <string name="menu_training_mode">Training mode on/off</string>
@@ -34,7 +34,19 @@
     <string name="teddy_dog_gmail_com">teddy_dog@gmail.com</string>
     <string name="_1_y_o">1 y.o</string>
     <string name="male">Male</string>
-    <string name="united_state">United State</string>
+    <string name="lang">Eng</string>
     <string name="submit">SUBMIT</string>
+
+    <!-- Dropdown -->
+    <string-array name="breed_arrays">
+        <item>Mini poodle</item>
+        <item>Shepherd</item>
+        <item>Akita</item>
+    </string-array>
+
+    <string-array name="type_arrays">
+        <item>Dog</item>
+        <item>Cat</item>
+    </string-array>
 
 </resources>

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.mobile.android.chameapps.pettalks.R
+import kotlinx.android.synthetic.main.activity_form_signup_image.view.*
 import javax.inject.Singleton
 
 
@@ -21,6 +22,7 @@ class ProfileFragment : Fragment() {
     ): View? {
 
         val view = inflater.inflate(R.layout.activity_form_signup_image, container, false)
+        view.bt_submit.setOnClickListener{  }
         return view
     }
 
