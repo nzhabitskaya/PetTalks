@@ -1,5 +1,6 @@
 package com.mobile.android.chameapps.pettalks
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -15,6 +16,9 @@ import com.google.android.material.navigation.NavigationView
 import com.mobile.android.chameapps.pettalks.camera.Camera2VideoFragment
 import com.mobile.android.chameapps.pettalks.demo.DemoFragment
 import com.mobile.android.chameapps.pettalks.profile.ProfileFragment
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import java.util.concurrent.TimeUnit
 
 
 class MainActivity : AppCompatActivity() {
@@ -37,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         prefs = getSharedPreferences("com.mobile.android.chameapps.pettalks", Context.MODE_PRIVATE)
         clearPreferences()
         setFragment(Camera2VideoFragment.newInstance())
+        createMenuTimer()
     }
 
     private fun initToolbar() {
@@ -112,11 +117,25 @@ class MainActivity : AppCompatActivity() {
         isCC = prefs.getBoolean(R.id.menu_cc.toString(), false)
         isVoice = prefs.getBoolean(R.id.menu_voice.toString(), false)
         isTrainingMode = prefs.getBoolean(R.id.menu_training_mode.toString(), false)
+    }
 
-        Log.e("ABC", "Read prefs: " + R.id.menu_camera_demo.toString() + " = " + isDemo)
-        Log.e("ABC", "Read prefs: " + R.id.menu_cc.toString() + " = " + isCC)
-        Log.e("ABC", "Read prefs: " + R.id.menu_voice.toString() + " = " + isVoice)
-        Log.e("ABC", "Read prefs: " + R.id.menu_training_mode.toString() + " = " + isTrainingMode)
+    @SuppressLint("CheckResult")
+    private fun createMenuTimer() {
+        Observable.interval(0, 1, TimeUnit.SECONDS)
+            .flatMap {
+                return@flatMap Observable.create<String> { emitter ->
+                    emitter.onNext(it.toString())
+                    emitter.onComplete()
+                }
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+
+                if (it.toInt() == 13) {
+                    Log.e("ABC", "Hide menu")
+                    invalidateOptionsMenu()
+                }
+            }
     }
 
     fun setFragment(fragment: Fragment) {

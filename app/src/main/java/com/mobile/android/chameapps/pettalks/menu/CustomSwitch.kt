@@ -3,7 +3,6 @@ package com.mobile.android.chameapps.pettalks.menu
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 import android.widget.Switch
 
 
@@ -20,7 +19,6 @@ class CustomSwitch(context: Context?) : Switch(context) {
         )
         setOnCheckedChangeListener { buttonView, isChecked ->
             prefs.edit().putBoolean(buttonView.id.toString(), isChecked).apply()
-            Log.e("ABC", "Save prefs: " + buttonView.id.toString() + " = " + isChecked)
         }
     }
 }

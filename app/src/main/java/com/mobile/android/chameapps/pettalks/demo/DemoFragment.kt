@@ -1,5 +1,6 @@
 package com.mobile.android.chameapps.pettalks.demo
 
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.net.Uri
@@ -10,10 +11,7 @@ import android.speech.tts.TextToSpeech.OnInitListener
 import android.speech.tts.Voice
 import android.util.Log
 import android.view.*
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.Format.NO_VALUE
@@ -47,17 +45,20 @@ class DemoFragment : Fragment() {
     private lateinit var subtitleUri: Uri
     private lateinit var videoUri: Uri
 
-    private lateinit var ad_view: ImageView
-    private lateinit var btn_close: ImageView
+    private lateinit var ad_view: RelativeLayout
+    private lateinit var ad_view_img: ImageView
     private lateinit var textToSpeech: TextToSpeech
 
     private var isCC: Boolean = false
     private var isVoice: Boolean = false
     private var isTrainingMode: Boolean = false
 
+    private lateinit var animationDown: ObjectAnimator
+    private lateinit var animationUp: ObjectAnimator
+
     private lateinit var dialog: Dialog
 
-        override fun onCreateView(
+    override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
@@ -68,9 +69,12 @@ class DemoFragment : Fragment() {
         isTrainingMode = args!!.getBoolean(IS_TRAINING_MODE, false)
 
         val view = inflater.inflate(R.layout.fragment_demo, container, false)
-        btn_close = view.btn_close
+        ad_view_img = view.ad_view_img
         ad_view = view.ad_view
-        ad_view.setOnClickListener { changeVisibility() }
+        ad_view.setOnClickListener { hideAds() }
+
+        animationDown = ObjectAnimator.ofFloat (ad_view, "translationY", 0f).setDuration(50)
+        animationUp = ObjectAnimator.ofFloat (ad_view, "translationY", -320f).setDuration(50)
         return view
     }
 
@@ -180,13 +184,17 @@ class DemoFragment : Fragment() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
 
-                if (it.toInt() == 13 || it.toInt() == 17 || it.toInt() == 41 || it.toInt() == 45 || it.toInt() == 71 || it.toInt() == 74) {
-                    changeVisibility()
+                if (it.toInt() == 13 || it.toInt() == 41 || it.toInt() == 71) {
+                    showAds()
+                }
+
+                if (it.toInt() == 16 || it.toInt() == 44 || it.toInt() == 74) {
+                    hideAds()
                 }
 
                 when (it.toInt()) {
-                    16 -> ad_view.setImageResource(R.drawable.ad_2)
-                    44 -> ad_view.setImageResource(R.drawable.ad_1)
+                    16 -> ad_view_img.setImageResource(R.drawable.ad_2)
+                    44 -> ad_view_img.setImageResource(R.drawable.ad_1)
                 }
 
                 if (isVoice) {
@@ -229,14 +237,12 @@ class DemoFragment : Fragment() {
             }
     }
 
-    private fun changeVisibility() {
-        if (ad_view.visibility == View.INVISIBLE) {
-            ad_view.visibility = View.VISIBLE
-            btn_close.visibility = View.VISIBLE
-        } else {
-            ad_view.visibility = View.INVISIBLE
-            btn_close.visibility = View.INVISIBLE
-        }
+    private fun showAds() {
+        animationDown.start()
+    }
+
+    private fun hideAds() {
+        animationUp.start()
     }
 
     private fun initTTS() {
@@ -268,10 +274,10 @@ class DemoFragment : Fragment() {
     }
 
     private fun showCustomDialog(messageId: Int) {
-        if(context == null) {
+        if (context == null) {
             return
         }
-        if(!::dialog.isInitialized) {
+        if (!::dialog.isInitialized) {
             dialog = Dialog(context!!)
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE) // before
             dialog.setContentView(R.layout.dialog_info)

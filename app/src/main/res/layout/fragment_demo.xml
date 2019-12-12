@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
         android:id="@+id/simpleExoPlayerView"
@@ -12,36 +11,45 @@
         app:resize_mode="fill"
         app:use_controller="false" />
 
-    <ImageView
-        android:id="@+id/ad_view"
+    <RelativeLayout
         android:layout_width="222dp"
         android:layout_height="117dp"
-        android:scaleType="fitXY"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/ad_1"
-        android:contentDescription="@string/ads"
-        android:visibility="invisible" />
+        android:layout_centerHorizontal="true">
 
-    <ImageView
-        android:id="@+id/btn_close"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:scaleType="fitXY"
-        android:layout_alignRight="@+id/ad_view"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/ic_close"
-        android:contentDescription="@string/ads"
-        android:visibility="invisible" />
+        <RelativeLayout
+            android:id="@+id/ad_view"
+            android:layout_width="222dp"
+            android:layout_height="117dp"
+            android:translationY="-117dp" >
+
+            <ImageView
+                android:id="@+id/ad_view_img"
+                android:layout_width="222dp"
+                android:layout_height="117dp"
+                android:contentDescription="@string/ads"
+                android:scaleType="fitXY"
+                android:src="@drawable/ad_1" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:contentDescription="@string/ads"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_close" />
+        </RelativeLayout>
+
+    </RelativeLayout>
 
     <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/avatar"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_alignEnd="@id/simpleExoPlayerView"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
-        android:layout_alignEnd="@id/simpleExoPlayerView"
         android:src="@drawable/white_dog_icon"
         app:civ_border_width="2dp"
         app:civ_shadow="true"
