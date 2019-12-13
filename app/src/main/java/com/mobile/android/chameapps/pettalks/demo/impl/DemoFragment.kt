@@ -63,6 +63,7 @@ class DemoFragment : Fragment(), DemoContract.View {
     private lateinit var animationUp: ObjectAnimator
 
     private lateinit var dialog: Dialog
+    private var isShowAds: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,8 +88,8 @@ class DemoFragment : Fragment(), DemoContract.View {
 
         view.avatar.setOnClickListener{ presenter.openProfile() }
 
-        animationDown = ObjectAnimator.ofFloat (ad_view, "translationY", 0f).setDuration(50)
-        animationUp = ObjectAnimator.ofFloat (ad_view, "translationY", -400f).setDuration(50)
+        animationDown = ObjectAnimator.ofFloat (ad_view, "translationY", 0f).setDuration(100)
+        animationUp = ObjectAnimator.ofFloat (ad_view, "translationY", -400f).setDuration(100)
         return view
     }
 
@@ -208,8 +209,8 @@ class DemoFragment : Fragment(), DemoContract.View {
                 }
 
                 when (it.toInt()) {
-                    16 -> ad_view_img.setImageResource(R.drawable.ad_2)
-                    44 -> ad_view_img.setImageResource(R.drawable.ad_1)
+                    30 -> ad_view_img.setImageResource(R.drawable.ad_2)
+                    60 -> ad_view_img.setImageResource(R.drawable.ad_1)
                 }
 
                 if (isVoice) {
@@ -253,11 +254,17 @@ class DemoFragment : Fragment(), DemoContract.View {
     }
 
     private fun showAds() {
-        animationDown.start()
+        if(!isShowAds) {
+            isShowAds = true
+            animationDown.start()
+        }
     }
 
     private fun hideAds() {
-        animationUp.start()
+        if(isShowAds) {
+            isShowAds = false
+            animationUp.start()
+        }
     }
 
     private fun initTTS() {

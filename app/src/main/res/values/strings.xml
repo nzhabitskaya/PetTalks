@@ -30,23 +30,32 @@
     <string name="q3">Teddy wants to play! Is it correct?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="pets_name">Pets name</string>
+    <string name="pets_name">Teddy</string>
     <string name="teddy_dog_gmail_com">teddy_dog@gmail.com</string>
     <string name="_1_y_o">1 y.o</string>
     <string name="male">Male</string>
-    <string name="lang">Eng</string>
+    <string name="lang">English</string>
     <string name="submit">SUBMIT</string>
+    <string name="dog">Dog</string>
+    <string name="mini_poodle">Mini poodle</string>
 
     <!-- Dropdown -->
-    <string-array name="breed_arrays">
+    <string-array name="breeds">
         <item>Mini poodle</item>
         <item>Shepherd</item>
         <item>Akita</item>
     </string-array>
 
-    <string-array name="type_arrays">
+    <string-array name="types">
         <item>Dog</item>
         <item>Cat</item>
+    </string-array>
+
+    <string-array name="langs">
+        <item>English</item>
+        <item>French</item>
+        <item>German</item>
+        <item>Russian</item>
     </string-array>
 
 </resources>
