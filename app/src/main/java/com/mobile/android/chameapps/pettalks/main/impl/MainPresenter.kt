@@ -59,24 +59,6 @@ class MainPresenter(model: MainModel): MainContract.Presenter {
         subscriptions.add(subscribe3)
     }
 
-    override fun startHideMenuCounter() {
-        val subscribe = Observable.interval(0, 1, TimeUnit.SECONDS)
-            .flatMap {
-                return@flatMap Observable.create<String> { emitter ->
-                    emitter.onNext(it.toString())
-                    emitter.onComplete()
-                }
-            }
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                if (it.toInt() % 10 == 0) {
-                    view.hideMenu()
-                }
-            }
-
-        subscriptions.add(subscribe)
-    }
-
     override fun updateDemoToggle(value: Boolean) {
         model.demoToggle.onNext(value)
     }

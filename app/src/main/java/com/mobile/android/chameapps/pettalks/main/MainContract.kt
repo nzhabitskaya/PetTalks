@@ -25,7 +25,5 @@ class MainContract {
         fun updateVoiceToggle(value: Boolean)
 
         fun updateTrainingModeToggle(value: Boolean)
-
-        fun startHideMenuCounter()
     }
 }

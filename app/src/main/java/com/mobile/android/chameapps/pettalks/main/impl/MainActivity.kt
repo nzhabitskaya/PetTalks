@@ -50,7 +50,6 @@ class MainActivity : AppCompatActivity(),
         injectDependency()
         presenter.attach(this)
         presenter.registerToggleListeners()
-        presenter.startHideMenuCounter()
 
         initToolbar()
         initNavigationMenu()
