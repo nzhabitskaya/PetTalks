@@ -4,7 +4,7 @@
     <color name="colorPrimaryMenu">#1976D2</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorPrimaryLight">#1E88E5</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">@android:color/holo_green_dark</color>
 
     <!-- Text color -->
     <color name="color_yellow">#FFEB3B</color>
