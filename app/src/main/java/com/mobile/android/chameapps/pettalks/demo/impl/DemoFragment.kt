@@ -209,8 +209,8 @@ class DemoFragment : Fragment(), DemoContract.View {
                 }
 
                 when (it.toInt()) {
-                    30 -> ad_view_img.setImageResource(R.drawable.ad_2)
-                    60 -> ad_view_img.setImageResource(R.drawable.ad_1)
+                    //30 -> ad_view_img.setImageResource(R.drawable.ad_2)
+                    //60 -> ad_view_img.setImageResource(R.drawable.ad_1)
                 }
 
                 if (isVoice) {
