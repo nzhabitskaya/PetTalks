@@ -4,6 +4,14 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('/Users/lychik/Documents/Keystore/KEY.jks')
+            storePassword 'qwerty'
+            keyAlias = 'key'
+            keyPassword 'qwerty'
+        }
+    }
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
